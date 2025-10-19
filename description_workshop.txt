@@ -12,8 +12,8 @@ These stat changes stay on the summoned minions and sentries, even if you use a 
 [tr][td]Hurtful[/td][td]+10%[/td][td]-[/td][td]-[/td][td]-[/td][td][/td][td]-[/td][td]-[/td][td]+20%[/td][/tr]
 [tr][td]Piercing[/td][td]-[/td][td]-[/td][td]+12%[/td][td]-[/td][td][/td][td]-[/td][td]-[/td][td]+20%[/td][/tr]
 [tr][td]Quick[/td][td]-[/td][td]-[/td][td]-[/td][td]+10%[/td][td][/td][td]-[/td][td]-[/td][td]+20%[/td][/tr]
-[tr][td]Small[/td][td]-15%[/td][td]+15%[/td][td]-[/td][td]-[/td][td][/td][td]-[/td][td]-[/td][td]+20%[/td][/tr]
-[tr][td]Large[/td][td]+15%[/td][td]+15%[/td][td]-[/td][td]-[/td][td][/td][td]-[/td][td]-[/td][td]+20%[/td][/tr]
+[tr][td]Small[/td][td]-15%[/td][td]+15%[/td][td]-[/td][td]-[/td][td][/td][td]-[/td][td]-[/td][td]+10%[/td][/tr]
+[tr][td]Large[/td][td]+15%[/td][td]+15%[/td][td]-[/td][td]-[/td][td][/td][td]-[/td][td]-[/td][td]+10%[/td][/tr]
 [tr][td]Bouncy[/td][td]-[/td][td]-[/td][td]-[/td][td]-[/td][td]-[/td][td]-[/td][td]+100%[/td][td]+5%[/td][/tr]
 [/table]
 
