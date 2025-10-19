@@ -1,0 +1,20 @@
+Replaces reforges for summoning staffs with 12 new useful reforges.
+These stat changes stay on the summoned minions and sentries, even if you use a different staff to summon more afterwards.
+
+[table]
+[tr][th]Reforge[/th][th]Damage[/th][th]Size[/th][th]Armor Penetration[/th][th]Summon Speed[/th][th]Minion Slot Usage[/th][th]Tag Damage[/th][th]Knockback[/th][th]Value[/th][/tr]
+[tr][td]Swarming[/td][td]-10%[/td][td]-[/td][td]-[/td][td]+10%[/td][td]-30%[/td][td]-15%[/td][td]-[/td][td]+60%[/td][/tr]
+[tr][td]Loyal[/td][td]-15%[/td][td]-[/td][td]-[/td][td][/td][td]-[/td][td]+33%[/td][td]-[/td][td]+60%[/td][/tr]
+[tr][td]Deadly[/td][td]+20%[/td][td]-[/td][td]+4%[/td][td]-[/td][td][/td][td]-[/td][td]-[/td][td]+60%[/td][/tr]
+[tr][td]Lightspeed[/td][td]-35%[/td][td]-[/td][td]-[/td][td]+50%[/td][td]-[/td][td]-[/td][td]-[/td][td]+60%[/td][/tr]
+[tr][td]Huge[/td][td]+33%[/td][td]+50%[/td][td]+6%[/td][td]-33%[/td][td]-[/td][td]-[/td][td]-[/td][td]+60%[/td][/tr]
+[tr][td]Tiny[/td][td]-10%[/td][td]-30%[/td][td]-[/td][td]+20%[/td][td]-[/td][td]-[/td][td]-[/td][td]+60%[/td][/tr]
+[tr][td]Hurtful[/td][td]+10%[/td][td]-[/td][td]-[/td][td]-[/td][td][/td][td]-[/td][td]-[/td][td]+20%[/td][/tr]
+[tr][td]Piercing[/td][td]-[/td][td]-[/td][td]+12%[/td][td]-[/td][td][/td][td]-[/td][td]-[/td][td]+20%[/td][/tr]
+[tr][td]Quick[/td][td]-[/td][td]-[/td][td]-[/td][td]+10%[/td][td][/td][td]-[/td][td]-[/td][td]+20%[/td][/tr]
+[tr][td]Small[/td][td]-15%[/td][td]+15%[/td][td]-[/td][td]-[/td][td][/td][td]-[/td][td]-[/td][td]+20%[/td][/tr]
+[tr][td]Large[/td][td]+15%[/td][td]+15%[/td][td]-[/td][td]-[/td][td][/td][td]-[/td][td]-[/td][td]+20%[/td][/tr]
+[tr][td]Bouncy[/td][td]-[/td][td]-[/td][td]-[/td][td]-[/td][td]-[/td][td]-[/td][td]+100%[/td][td]+5%[/td][/tr]
+[/table]
+
+Source code is available on Github at https://github.com/Vonr/SummoningReforges.

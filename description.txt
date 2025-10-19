@@ -1,0 +1,51 @@
+Replaces reforges for summoning staffs with 12 new useful reforges.
+These stat changes stay on the summoned minions and sentries, even if you use a different staff to summon more afterwards.
+
+Swarming (+60% Value)
+-10% Damage
++10% Summon Speed
+-30% Minion Slot Usage
+-15% Tag Damage
+
+Loyal (+60% Value)
+-15% Damage
++33% Tag Damage
+
+Deadly (+60% Value)
++20% Damage
++4% Armor Penetration
+
+Lightspeed (+60% Value)
+-35% Damage
++50% Summon Speed
+
+Huge (+60% Value)
++33% Damage
++50% Size
++6% Armor Penetration
+-33% Summon Speed
+
+Tiny (+60% Value)
+-10% Damage
+-30% Size
++20% Summon Speed
+
+Hurtful (+20% Value)
++10% Damage
+
+Piercing (+20% Value)
++12% Armor Penetration
+
+Quick (+20% Value)
++10% Summon Speed
+
+Small (+10% Value)
+-15% Size
+
+Large (+10% Value)
++15% Size
+
+Bouncy (+5% Value)
++100% Knockback
+
+Source code is available on Github at https://github.com/Vonr/SummoningReforges.

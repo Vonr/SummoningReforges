@@ -1,0 +1,70 @@
+Mods: {
+	SummoningReforges: {
+		Prefixes: {
+			SwarmingPrefix: {
+				DisplayName: Swarming
+				AdditionalTooltip: Minions use less slots but deal less damage.
+			}
+
+			DeadlyPrefix: {
+				DisplayName: Deadly
+				AdditionalTooltip: Summons deal more damage.
+			}
+
+			HurtfulPrefix: {
+				DisplayName: Hurtful
+				AdditionalTooltip: Summons deal slightly more damage.
+			}
+
+			PiercingPrefix: {
+				DisplayName: Piercing
+				AdditionalTooltip: Summons ignore some defense.
+			}
+
+			HugePrefix: {
+				DisplayName: Huge
+				AdditionalTooltip: Summons are larger and deal more damage but are slower.
+			}
+
+			LargePrefix: {
+				DisplayName: Large
+				AdditionalTooltip: Summons are slightly larger.
+			}
+
+			TinyPrefix: {
+				DisplayName: Tiny
+				AdditionalTooltip: Summons are smaller and faster but deal less damage.
+			}
+
+			SmallPrefix: {
+				DisplayName: Small
+				AdditionalTooltip: Summons are slightly smaller.
+			}
+
+			LoyalPrefix: {
+				DisplayName: Loyal
+				AdditionalTooltip: Summons deal less damage but are more receptive to whip tags.
+			}
+
+			LightspeedPrefix: {
+				DisplayName: Lightspeed
+				AdditionalTooltip: Summons act much faster but deal slightly less damage.
+			}
+
+			QuickPrefix: {
+				DisplayName: Quick
+				AdditionalTooltip: Summons act slightly faster.
+			}
+
+			BouncyPrefix: {
+				DisplayName: Bouncy
+				AdditionalTooltip: Summons deal hugely increased knockback.
+			}
+
+			ArmorPenetrationTooltip: "{0:+0%;-0%} armor penetration"
+			SpeedTooltip: "{0:+0%;-0%} summon speed"
+			SummonCostTooltip: "{0:+0%;-0%} minion slot usage"
+			TagDamageTooltip: "{0:+0%;-0%} tag damage"
+		}
+	}
+}

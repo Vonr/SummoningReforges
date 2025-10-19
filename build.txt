@@ -1,0 +1,5 @@
+displayName = Summoning Reforges
+author = Qther
+version = 1.0.0
+side = Both
+includeSource = true
