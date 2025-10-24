@@ -15,19 +15,19 @@ namespace SummoningReforges
             On_Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float_float += static (On_Projectile.orig_NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float_float orig, IEntitySource spawnSource, float X, float Y, float SpeedX, float SpeedY, int Type, int Damage, float KnockBack, int Owner, float ai0, float ai1, float ai2) =>
             {
                 Projectile parentProj = null;
-                if (spawnSource is EntitySource_Parent parent && parent.Entity is Projectile proj && (proj.minion || proj.sentry))
+                if (spawnSource is EntitySource_Parent parent && parent.Entity is Projectile proj && proj.IsMinionOrSentryRelated)
                 {
                     parentProj = proj;
                 }
 
                 var idx = orig.Invoke(spawnSource, X, Y, SpeedX, SpeedY, Type, Damage, KnockBack, Owner, ai0, ai1, ai2);
                 var spawned = Main.projectile[idx];
-                if (spawned.minion || spawned.sentry)
+                if (spawned.IsMinionOrSentryRelated)
                 {
                     Modifiers mods = new();
                     var scale = 1.0f;
 
-                    if (parentProj != null && (ProjectileID.Sets.MinionShot[spawned.type] || ProjectileID.Sets.SentryShot[spawned.type]))
+                    if (parentProj != null)
                     {
                         mods = SummoningReforges.GetModifiers(parentProj);
                     }
@@ -73,11 +73,6 @@ namespace SummoningReforges
                 c.EmitLdarg0();
                 c.EmitDelegate<Func<float, Projectile, float>>((orig, self) =>
                 {
-                    if (!self.minion)
-                    {
-                        return orig;
-                    }
-
                     var mods = SummoningReforges.GetModifiers(self);
                     return orig * mods.TagDamage;
                 });
@@ -188,8 +183,10 @@ namespace SummoningReforges
 
         public static void SetModifiers(Projectile projectile, Modifiers from)
         {
-            projectile.TryGetGlobalProjectile<SummoningReforgesProjectileData>(out var g);
-            g.Modifiers = from;
+            if (projectile.TryGetGlobalProjectile<SummoningReforgesProjectileData>(out var g))
+            {
+                g.Modifiers = from;
+            }
         }
 
         public static void SetModifiers(int projectileIndex, Modifiers from)
@@ -231,6 +228,11 @@ namespace SummoningReforges
 
         public Modifiers Modifiers { get; set; } = new();
         public float PartialUpdates { get; set; }
+
+        public override bool AppliesToEntity(Projectile entity, bool lateInstantiation)
+        {
+            return entity.IsMinionOrSentryRelated;
+        }
     }
 
     public class SummoningReforgesGlobalItem : GlobalItem
@@ -247,7 +249,7 @@ namespace SummoningReforges
     {
         public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref NPC.HitModifiers modifiers)
         {
-            if (projectile.minion || projectile.sentry)
+            if (projectile.IsMinionOrSentryRelated)
             {
                 modifiers.ScalingArmorPenetration += SummoningReforges.GetModifiers(projectile).ArmorPenetration;
             }
