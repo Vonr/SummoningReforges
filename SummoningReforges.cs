@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace SummoningReforges
 {
-    public class SummoningReforgesSystem : ModSystem
+    public sealed class SummoningReforgesSystem : ModSystem
     {
         public override void Load()
         {
@@ -63,7 +63,7 @@ namespace SummoningReforges
                 var field = typeof(ProjectileID.Sets).GetField(nameof(ProjectileID.Sets.SummonTagDamageMultiplier));
                 if (!c.TryGotoNext(MoveType.After, i => i.MatchLdsfld(field)))
                 {
-                    throw new InvalidProgramException($"Couldn't find {field}");
+                    throw new InvalidProgramException($"Couldn't find ldsfld for {field}");
                 }
 
                 if (!c.TryGotoNext(MoveType.After, i => i.MatchLdelemR4()))
@@ -86,7 +86,7 @@ namespace SummoningReforges
                 var field = typeof(ItemID.Sets).GetField(nameof(ItemID.Sets.StaffMinionSlotsRequired));
                 if (!c.TryGotoNext(MoveType.After, i => i.MatchLdsfld(field)))
                 {
-                    throw new InvalidProgramException($"Couldn't find {field}");
+                    throw new InvalidProgramException($"Couldn't find ldsfld for {field}");
                 }
 
                 if (!c.TryGotoNext(MoveType.After, i => i.MatchLdelemR4()))
@@ -129,7 +129,7 @@ namespace SummoningReforges
         }
     }
 
-    public class SummoningReforges : Mod
+    public sealed class SummoningReforges : Mod
     {
         public static Modifiers GetModifiers(Item item)
         {
@@ -223,7 +223,7 @@ namespace SummoningReforges
         }
     }
 
-    public class SummoningReforgesProjectileData : GlobalProjectile
+    public sealed class SummoningReforgesProjectileData : GlobalProjectile
     {
         public override bool InstancePerEntity => true;
 
@@ -236,7 +236,7 @@ namespace SummoningReforges
         }
     }
 
-    public class SummoningReforgesGlobalItem : GlobalItem
+    public sealed class SummoningReforgesGlobalItem : GlobalItem
     {
         public override bool AllowPrefix(Item item, int pre)
         {
@@ -246,7 +246,7 @@ namespace SummoningReforges
         }
     }
 
-    public class SummoningReforgesGlobalNPC : GlobalNPC
+    public sealed class SummoningReforgesGlobalNPC : GlobalNPC
     {
         public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref NPC.HitModifiers modifiers)
         {
@@ -258,7 +258,7 @@ namespace SummoningReforges
         }
     }
 
-    public class Modifiers
+    public sealed class Modifiers
     {
         public float ArmorPenetration { get; set; }
         public float Speed { get; set; } = 1.0f;

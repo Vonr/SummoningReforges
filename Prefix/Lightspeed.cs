@@ -1,6 +1,6 @@
 namespace SummoningReforges.Prefix
 {
-    public class LightspeedPrefix : BasePrefix
+    public sealed class LightspeedPrefix : BasePrefix
     {
         public override float Value => 1.6f;
         public override float Speed => 1.5f;

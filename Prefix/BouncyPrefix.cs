@@ -1,6 +1,6 @@
 namespace SummoningReforges.Prefix
 {
-    public class BouncyPrefix : BasePrefix
+    public sealed class BouncyPrefix : BasePrefix
     {
         public override float Value => 1.05f;
 

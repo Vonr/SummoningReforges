@@ -1,6 +1,6 @@
 namespace SummoningReforges.Prefix
 {
-    public class SmallPrefix : BasePrefix
+    public sealed class SmallPrefix : BasePrefix
     {
         public override float Value => 1.1f;
 

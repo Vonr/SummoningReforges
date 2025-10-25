@@ -1,6 +1,6 @@
 namespace SummoningReforges.Prefix
 {
-    public class SwarmingPrefix : BasePrefix
+    public sealed class SwarmingPrefix : BasePrefix
     {
         public override StaffType StaffType => StaffType.Minion;
 

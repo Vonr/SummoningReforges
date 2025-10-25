@@ -1,6 +1,6 @@
 namespace SummoningReforges.Prefix
 {
-    public class HurtfulPrefix : BasePrefix
+    public sealed class HurtfulPrefix : BasePrefix
     {
         public override float Value => 1.2f;
 

@@ -1,6 +1,6 @@
 namespace SummoningReforges.Prefix
 {
-    public class HugePrefix : BasePrefix
+    public sealed class HugePrefix : BasePrefix
     {
         public override float Value => 1.6f;
         public override float ArmorPenetration => 0.06f;
