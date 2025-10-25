@@ -30,6 +30,7 @@ namespace SummoningReforges
                     if (parentProj != null)
                     {
                         mods = SummoningReforges.GetModifiers(parentProj);
+                        scale = parentProj.scale;
                     }
                     else if (spawnSource is EntitySource_ItemUse itemUse)
                     {
