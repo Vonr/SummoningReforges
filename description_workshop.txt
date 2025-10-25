@@ -4,7 +4,7 @@ These stat changes stay on the summoned minions and sentries, even if you use a 
 [table]
 [tr][th]Reforge[/th][th]Damage[/th][th]Size[/th][th]Armor Penetration[/th][th]Summon Speed[/th][th]Minion Slot Usage[/th][th]Tag Damage[/th][th]Knockback[/th][th]Value[/th][/tr]
 [tr][td]Swarming[/td][td]-10%[/td][td]-[/td][td]-[/td][td]+10%[/td][td]-30%[/td][td]-15%[/td][td]-[/td][td]+60%[/td][/tr]
-[tr][td]Loyal[/td][td]-15%[/td][td]-[/td][td]-[/td][td]-[/td][td]-[/td][td]+33%[/td][td]-[/td][td]+60%[/td][/tr]
+[tr][td]Loyal[/td][td]-20%[/td][td]-[/td][td]-[/td][td]-[/td][td]-[/td][td]+50%[/td][td]-[/td][td]+60%[/td][/tr]
 [tr][td]Deadly[/td][td]+20%[/td][td]-[/td][td]+4%[/td][td]-[/td][td]-[/td][td]-[/td][td]-[/td][td]+60%[/td][/tr]
 [tr][td]Lightspeed[/td][td]-35%[/td][td]-[/td][td]-[/td][td]+50%[/td][td]-[/td][td]-[/td][td]-[/td][td]+60%[/td][/tr]
 [tr][td]Huge[/td][td]+33%[/td][td]+50%[/td][td]+6%[/td][td]-33%[/td][td]-[/td][td]-[/td][td]-[/td][td]+60%[/td][/tr]

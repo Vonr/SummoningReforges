@@ -8,8 +8,8 @@ Swarming (+60% Value)
 -15% Tag Damage
 
 Loyal (+60% Value)
--15% Damage
-+33% Tag Damage
+-20% Damage
++50% Tag Damage
 
 Deadly (+60% Value)
 +20% Damage
