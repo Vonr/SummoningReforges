@@ -258,7 +258,7 @@ namespace SummoningReforges
         }
     }
 
-    public sealed class Modifiers
+    public record Modifiers
     {
         public float ArmorPenetration { get; set; }
         public float Speed { get; set; } = 1.0f;
