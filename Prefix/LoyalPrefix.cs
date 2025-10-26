@@ -2,8 +2,6 @@ namespace SummoningReforges.Prefix
 {
     public sealed class LoyalPrefix : BasePrefix
     {
-        public override StaffType StaffType => StaffType.Minion;
-
         public override float Value => 1.6f;
         public override float TagDamage => 1.5f;
 
