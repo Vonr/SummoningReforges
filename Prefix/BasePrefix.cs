@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -63,12 +64,12 @@ namespace SummoningReforges.Prefix
         {
             var minion = StaffType.Minion.SatisfiedBy(item);
 
-            if (ArmorPenetration != 0.0f)
+            if (ArmorPenetration != 0f)
             {
                 yield return new TooltipLine(Mod, "PrefixWeaponArmorPenetration", ArmorPenetrationTooltip.Format(ArmorPenetration))
                 {
                     IsModifier = true,
-                    IsModifierBad = false,
+                    IsModifierBad = ArmorPenetration < 0f,
                 };
             }
 
@@ -114,11 +115,13 @@ namespace SummoningReforges.Prefix
         }
     }
 
+    [Flags]
     public enum StaffType
     {
-        Minion,
-        Sentry,
-        Both
+        None = 0,
+        Minion = 1 << 0,
+        Sentry = 1 << 1,
+        Both = Minion | Sentry,
     }
 
     public static class StaffTypeExtensions
@@ -127,10 +130,11 @@ namespace SummoningReforges.Prefix
         {
             return staffType switch
             {
+                StaffType.None => false,
                 StaffType.Minion => SummoningReforges.IsMinionStaff(item),
                 StaffType.Sentry => SummoningReforges.IsSentryStaff(item),
                 StaffType.Both => SummoningReforges.IsSummonStaff(item),
-                _ => throw new System.NotImplementedException(),
+                _ => throw new NotImplementedException(),
             };
         }
     }
