@@ -12,7 +12,7 @@ namespace SummoningReforges
     {
         public override void Load()
         {
-            On_Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float_float += static (On_Projectile.orig_NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float_float orig, IEntitySource spawnSource, float X, float Y, float SpeedX, float SpeedY, int Type, int Damage, float KnockBack, int Owner, float ai0, float ai1, float ai2) =>
+            On_Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float_float += static (orig, spawnSource, X, Y, SpeedX, SpeedY, Type, Damage, KnockBack, Owner, ai0, ai1, ai2) =>
             {
                 Projectile parentProj = null;
                 if (spawnSource is EntitySource_Parent parent && parent.Entity is Projectile proj && proj.IsMinionOrSentryRelated)
@@ -24,13 +24,18 @@ namespace SummoningReforges
                 var spawned = Main.projectile[idx];
                 if (spawned.IsMinionOrSentryRelated)
                 {
-                    Modifiers mods = new();
+                    Modifiers? mods = null;
                     var scale = 1.0f;
 
                     if (parentProj != null)
                     {
-                        mods = SummoningReforges.GetModifiers(parentProj);
-                        scale = parentProj.scale;
+                        if (SummoningReforges.GetModifiers(parentProj, out var foundMods))
+                        {
+                            mods = foundMods;
+                        }
+                        var defaultParent = new Projectile();
+                        defaultParent.SetDefaults(parentProj.type);
+                        scale *= parentProj.scale / defaultParent.scale;
                     }
                     else if (spawnSource is EntitySource_ItemUse itemUse)
                     {
@@ -38,30 +43,30 @@ namespace SummoningReforges
                         var defaultItem = new Item();
                         defaultItem.SetDefaults(item.type);
 
-                        mods = SummoningReforges.GetModifiers(item);
-                        scale = item.scale / defaultItem.scale;
+                        if (SummoningReforges.GetModifiers(item, out var foundMods))
+                        {
+                            mods = foundMods;
+                        }
+                        scale *= item.scale / defaultItem.scale;
                     }
 
-                    SummoningReforges.CopyModifiers(spawned, mods);
-                    spawned.minionSlots *= mods.SummonCost;
                     spawned.scale *= scale;
+                    if (mods is Modifiers m)
+                    {
+                        SummoningReforges.CopyModifiers(spawned, m);
+                        spawned.minionSlots *= m.SummonCost;
+                    }
                 }
 
                 return idx;
             };
 
-            On_Projectile.Kill += static (On_Projectile.orig_Kill orig, Projectile self) =>
-            {
-                SummoningReforges.SetModifiers(self, null);
-                orig.Invoke(self);
-            };
-
-            IL_Projectile.Damage += static (ILContext il) =>
+            IL_Projectile.Damage += static il =>
             {
                 var c = new ILCursor(il);
 
                 var field = typeof(ProjectileID.Sets).GetField(nameof(ProjectileID.Sets.SummonTagDamageMultiplier));
-                if (!c.TryGotoNext(MoveType.After, i => i.MatchLdsfld(field)))
+                if (field == null || !c.TryGotoNext(MoveType.After, i => i.MatchLdsfld(field)))
                 {
                     throw new InvalidProgramException($"Couldn't find ldsfld for {field}");
                 }
@@ -74,17 +79,21 @@ namespace SummoningReforges
                 c.EmitLdarg0();
                 c.EmitDelegate<Func<float, Projectile, float>>((orig, self) =>
                 {
-                    var mods = SummoningReforges.GetModifiers(self);
-                    return orig * mods.TagDamage;
+                    if (SummoningReforges.GetModifiers(self, out var mods))
+                    {
+                        orig += mods.TagDamage - 1f;
+                    }
+
+                    return orig;
                 });
             };
 
-            IL_Player.FreeUpPetsAndMinions += static (ILContext il) =>
+            IL_Player.FreeUpPetsAndMinions += static il =>
             {
                 var c = new ILCursor(il);
 
                 var field = typeof(ItemID.Sets).GetField(nameof(ItemID.Sets.StaffMinionSlotsRequired));
-                if (!c.TryGotoNext(MoveType.After, i => i.MatchLdsfld(field)))
+                if (field == null || !c.TryGotoNext(MoveType.After, i => i.MatchLdsfld(field)))
                 {
                     throw new InvalidProgramException($"Couldn't find ldsfld for {field}");
                 }
@@ -97,17 +106,21 @@ namespace SummoningReforges
                 c.EmitLdarg1();
                 c.EmitDelegate<Func<float, Item, float>>((orig, item) =>
                 {
-                    var mods = SummoningReforges.GetModifiers(item);
-                    return orig * mods.SummonCost;
+                    if (SummoningReforges.GetModifiers(item, out var mods))
+                    {
+                        orig *= mods.SummonCost;
+                    }
+
+                    return orig;
                 });
             };
 
-            IL_Projectile.Update += static (ILContext il) =>
+            IL_Projectile.Update += static il =>
             {
                 var c = new ILCursor(il);
 
                 var field = typeof(Projectile).GetField(nameof(Projectile.extraUpdates));
-                if (!c.TryGotoNext(MoveType.After, i => i.MatchLdfld(field)))
+                if (field == null || !c.TryGotoNext(MoveType.After, i => i.MatchLdfld(field)))
                 {
                     throw new InvalidProgramException($"Couldn't find {field}");
                 }
@@ -115,11 +128,11 @@ namespace SummoningReforges
                 c.EmitLdarg0();
                 c.EmitDelegate<Func<int, Projectile, int>>((extraUpdates, self) =>
                 {
-                    if (self.TryGetGlobalProjectile<SummoningReforgesProjectileData>(out var g))
+                    if (SummoningReforges.GetData(self, out var data))
                     {
-                        g.PartialUpdates += self.MaxUpdates * (g.Modifiers.Speed - 1.0f);
-                        var fullUpdates = (int)g.PartialUpdates;
-                        g.PartialUpdates -= fullUpdates;
+                        data.PartialUpdates += self.MaxUpdates * (data.Modifiers.Speed - 1.0f);
+                        var fullUpdates = (int)data.PartialUpdates;
+                        data.PartialUpdates -= fullUpdates;
                         return extraUpdates + fullUpdates;
                     }
 
@@ -131,39 +144,50 @@ namespace SummoningReforges
 
     public sealed class SummoningReforges : Mod
     {
-        public static Modifiers GetModifiers(Item item)
+        public static bool GetData(Projectile projectile, out SummoningReforgesProjectileData data)
         {
-            return item != null && PrefixLoader.GetPrefix(item.prefix) is BasePrefix basePrefix
-                ? new()
+            if (projectile?.IsMinionOrSentryRelated == true && projectile.TryGetGlobalProjectile(out data))
+            {
+                return true;
+            }
+
+            data = new();
+            return false;
+        }
+
+        public static bool GetModifiers(Item item, out Modifiers mods)
+        {
+            if (item != null && PrefixLoader.GetPrefix(item.prefix) is BasePrefix basePrefix)
+            {
+                mods = new()
                 {
                     ArmorPenetration = basePrefix.ArmorPenetration,
                     Speed = basePrefix.Speed,
                     SummonCost = basePrefix.SummonCost,
                     TagDamage = basePrefix.TagDamage,
-                }
-                : new();
-        }
-
-        public static Modifiers GetModifiers(Projectile projectile)
-        {
-            if (projectile == null)
-            {
-                return new();
+                };
+                return true;
             }
 
-#pragma warning disable IDE0046
-            if (projectile.TryGetGlobalProjectile<SummoningReforgesProjectileData>(out var g))
-            {
-                return g.Modifiers;
-            }
-#pragma warning restore IDE0046
-
-            return new();
+            mods = new();
+            return false;
         }
 
-        public static Modifiers GetModifiers(int projectileIndex)
+        public static bool GetModifiers(Projectile projectile, out Modifiers mods)
         {
-            return GetModifiers(Main.projectile?[projectileIndex]);
+            if (GetData(projectile, out var data))
+            {
+                mods = data.Modifiers;
+                return true;
+            }
+
+            mods = new();
+            return false;
+        }
+
+        public static bool GetModifiers(int projectileIndex, out Modifiers mods)
+        {
+            return GetModifiers(Main.projectile?[projectileIndex], out mods);
         }
 
         public static void CopyModifiers(Projectile projectile, Modifiers from)
@@ -184,9 +208,9 @@ namespace SummoningReforges
 
         public static void SetModifiers(Projectile projectile, Modifiers from)
         {
-            if (projectile.TryGetGlobalProjectile<SummoningReforgesProjectileData>(out var g))
+            if (GetData(projectile, out var data))
             {
-                g.Modifiers = from;
+                data.Modifiers = from;
             }
         }
 
@@ -227,7 +251,7 @@ namespace SummoningReforges
     {
         public override bool InstancePerEntity => true;
 
-        public Modifiers Modifiers { get; set; } = new();
+        public Modifiers Modifiers { get; set; }
         public float PartialUpdates { get; set; }
 
         public override bool AppliesToEntity(Projectile entity, bool lateInstantiation)
@@ -250,15 +274,16 @@ namespace SummoningReforges
     {
         public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref NPC.HitModifiers modifiers)
         {
-            if (projectile.IsMinionOrSentryRelated)
+            if (SummoningReforges.GetModifiers(projectile, out var mods))
             {
-                modifiers.ScalingArmorPenetration += SummoningReforges.GetModifiers(projectile).ArmorPenetration;
+                modifiers.ScalingArmorPenetration += mods.ArmorPenetration;
             }
+
             base.ModifyHitByProjectile(npc, projectile, ref modifiers);
         }
     }
 
-    public record Modifiers
+    public struct Modifiers()
     {
         public float ArmorPenetration { get; set; }
         public float Speed { get; set; } = 1.0f;
