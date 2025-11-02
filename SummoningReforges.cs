@@ -35,7 +35,7 @@ namespace SummoningReforges
                         }
                         var defaultParent = new Projectile();
                         defaultParent.SetDefaults(parentProj.type);
-                        scale *= parentProj.scale / defaultParent.scale;
+                        scale = parentProj.scale / defaultParent.scale;
                     }
                     else if (spawnSource is EntitySource_ItemUse itemUse)
                     {
@@ -47,13 +47,13 @@ namespace SummoningReforges
                         {
                             mods = foundMods;
                         }
-                        scale *= item.scale / defaultItem.scale;
+                        scale = item.scale / defaultItem.scale;
                     }
 
                     spawned.scale *= scale;
                     if (mods is Modifiers m)
                     {
-                        SummoningReforges.CopyModifiers(spawned, m);
+                        SummoningReforges.SetModifiers(spawned, m);
                         spawned.minionSlots *= m.SummonCost;
                     }
                 }
@@ -159,13 +159,7 @@ namespace SummoningReforges
         {
             if (item != null && PrefixLoader.GetPrefix(item.prefix) is BasePrefix basePrefix)
             {
-                mods = new()
-                {
-                    ArmorPenetration = basePrefix.ArmorPenetration,
-                    Speed = basePrefix.Speed,
-                    SummonCost = basePrefix.SummonCost,
-                    TagDamage = basePrefix.TagDamage,
-                };
+                mods = new(armorPenetration: basePrefix.ArmorPenetration, speed: basePrefix.Speed, summonCost: basePrefix.SummonCost, tagDamage: basePrefix.TagDamage);
                 return true;
             }
 
@@ -188,22 +182,6 @@ namespace SummoningReforges
         public static bool GetModifiers(int projectileIndex, out Modifiers mods)
         {
             return GetModifiers(Main.projectile?[projectileIndex], out mods);
-        }
-
-        public static void CopyModifiers(Projectile projectile, Modifiers from)
-        {
-            CopyModifiers(projectile.whoAmI, from);
-        }
-
-        public static void CopyModifiers(int projectileIndex, Modifiers from)
-        {
-            SetModifiers(projectileIndex, new()
-            {
-                ArmorPenetration = from.ArmorPenetration,
-                Speed = from.Speed,
-                SummonCost = from.SummonCost,
-                TagDamage = from.TagDamage,
-            });
         }
 
         public static void SetModifiers(Projectile projectile, Modifiers from)
@@ -283,11 +261,11 @@ namespace SummoningReforges
         }
     }
 
-    public struct Modifiers()
+    public readonly struct Modifiers(float armorPenetration = 0f, float speed = 1f, float summonCost = 1f, float tagDamage = 1f)
     {
-        public float ArmorPenetration { get; set; }
-        public float Speed { get; set; } = 1.0f;
-        public float SummonCost { get; set; } = 1.0f;
-        public float TagDamage { get; set; } = 1.0f;
+        public float ArmorPenetration { get; } = armorPenetration;
+        public float Speed { get; } = speed;
+        public float SummonCost { get; } = summonCost;
+        public float TagDamage { get; } = tagDamage;
     }
 }
