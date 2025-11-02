@@ -24,7 +24,7 @@ namespace SummoningReforges
                 var spawned = Main.projectile[idx];
                 if (spawned.IsMinionOrSentryRelated)
                 {
-                    Modifiers? mods = null;
+                    Modifiers mods = null;
                     var scale = 1.0f;
 
                     if (parentProj != null)
@@ -51,10 +51,10 @@ namespace SummoningReforges
                     }
 
                     spawned.scale *= scale;
-                    if (mods is Modifiers m)
+                    if (mods != null)
                     {
-                        SummoningReforges.SetModifiers(spawned, m);
-                        spawned.minionSlots *= m.SummonCost;
+                        SummoningReforges.SetModifiers(spawned, mods);
+                        spawned.minionSlots *= mods.SummonCost;
                     }
                 }
 
@@ -159,7 +159,7 @@ namespace SummoningReforges
         {
             if (item != null && PrefixLoader.GetPrefix(item.prefix) is BasePrefix basePrefix)
             {
-                mods = new(armorPenetration: basePrefix.ArmorPenetration, speed: basePrefix.Speed, summonCost: basePrefix.SummonCost, tagDamage: basePrefix.TagDamage);
+                mods = new(ArmorPenetration: basePrefix.ArmorPenetration, Speed: basePrefix.Speed, SummonCost: basePrefix.SummonCost, TagDamage: basePrefix.TagDamage);
                 return true;
             }
 
@@ -229,7 +229,7 @@ namespace SummoningReforges
     {
         public override bool InstancePerEntity => true;
 
-        public Modifiers Modifiers { get; set; }
+        public Modifiers Modifiers { get; set; } = new();
         public float PartialUpdates { get; set; }
 
         public override bool AppliesToEntity(Projectile entity, bool lateInstantiation)
@@ -261,11 +261,11 @@ namespace SummoningReforges
         }
     }
 
-    public readonly struct Modifiers(float armorPenetration = 0f, float speed = 1f, float summonCost = 1f, float tagDamage = 1f)
+    public sealed record Modifiers(float ArmorPenetration = 0f, float Speed = 1f, float SummonCost = 1f, float TagDamage = 1f)
     {
-        public float ArmorPenetration { get; } = armorPenetration;
-        public float Speed { get; } = speed;
-        public float SummonCost { get; } = summonCost;
-        public float TagDamage { get; } = tagDamage;
+        public float ArmorPenetration { get; } = ArmorPenetration;
+        public float Speed { get; } = Speed;
+        public float SummonCost { get; } = SummonCost;
+        public float TagDamage { get; } = TagDamage;
     }
 }
